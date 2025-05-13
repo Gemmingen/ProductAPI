@@ -9,6 +9,8 @@ namespace ProductAPI.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+
+
         private readonly ApplicationDbContext _context;
         public ProductController(ApplicationDbContext dbcontext)
         {
@@ -30,12 +32,34 @@ namespace ProductAPI.Controllers
             return Ok(_context.Products.ToList());
         }
 
-        [HttpDelete] 
+        [HttpGet("{id}")]
+        public IActionResult GetProductById(int id)
+        {
+            var product = _context.Products.Find(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+        }
+
+        [HttpGet("search/{name}")]
+        public IActionResult GetProductByName(string name)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Name == name);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+        }
+
+        [HttpDelete]
         public IActionResult DeleteProduct(int id)
         {
             var product = _context.Products.Find(id);
 
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -48,7 +72,7 @@ namespace ProductAPI.Controllers
         [HttpPut]
         public IActionResult UpdateProduct(int id, [FromBody] Product product)
         {
-            var productInDb = _context.Products.Find(id); 
+            var productInDb = _context.Products.Find(id);
             if (productInDb == null)
             {
                 return NotFound();

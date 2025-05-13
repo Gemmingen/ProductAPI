@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using ProductAPI.Data;
 
-namespace ProductAPI
+namespace ProductAPI.src.Product.API
 {
     public class Program
     {
